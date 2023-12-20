@@ -10,7 +10,7 @@ pub struct Matrix {
 impl Matrix {
     pub fn new(rows: usize, cols: usize) -> Self {
         let data = vec![vec![0.0; cols]; rows];
-        return Self { rows, cols, data };
+        Self { rows, cols, data }
     }
     pub fn from_file(path: &str) -> Self {
         let content = fs::read_to_string(path).unwrap_or_else(|e| panic!("{e}"));
@@ -25,19 +25,28 @@ impl Matrix {
         }
         let rows = mat.len();
         let cols = mat[0].len();
-        return Self {
+        Self {
             rows,
             cols,
             data: mat,
-        };
+        }
     }
+
     // TODO: create matrix from string
     pub fn from_string(input: &str) -> Self {
         let mut data: Vec<Vec<f64>> = Vec::new();
         let rows: Vec<&str> = input.split(";").collect();
-        // for row in rows {
-        //     let entries: Vec<&str>
-        // }
+        for row in rows {
+            let entries: Vec<&str> = row.split_whitespace().collect();
+            let mut tmp_row: Vec<f64> = Vec::new();
+            for ent in entries {
+                tmp_row.push(ent.parse::<f64>().unwrap());
+            }
+            data.push(tmp_row);
+        }
+        let rows = data.len();
+        let cols = data[0].len();
+        Matrix { rows, cols, data }
     }
 }
 

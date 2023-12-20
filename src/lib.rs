@@ -119,5 +119,63 @@ impl Matrix {
         }
         dp
     }
+
+    // row reduce echelon form
+    pub fn rref(&mut self) {
+        if self.data[0][0] == 0.0 {
+            swap_rows(self, 0);
+        }
+        let mut lead: usize = 0;
+        let rows = self.rows;
+        while lead < rows {
+            for r in 0..rows {
+                let div = self.data[lead][lead];
+                let mult = self.data[r][lead] / div;
+                if r == lead {
+                    self.data[lead] = self.data[lead].iter().map(|entry| entry / div).collect();
+                } else {
+                    for c in 0..self.cols {
+                        self.data[r][c] -= self.data[lead][c] * mult;
+                    }
+                }
+            }
+            lead += 1
+        }
+        correct(self);
+    }
+}
+
+fn swap_rows(m: &mut Matrix, row: usize) {
+    let mut n_r = 0;
+    for r in 0..m.rows {
+        if m.data[r][0] > 0.0 {
+            n_r = r;
+            break;
+        }
+    }
+    let temp: Vec<f64> = m.data[row].clone();
+    m.data[row] = m.data[n_r].clone();
+    m.data[n_r] = temp;
+}
+
+fn correct(m: &mut Matrix) {
+    for row in 0..m.rows {
+        for col in 0..m.cols {
+            let elem = m.data[row][col];
+            if elem == -0.0 {
+                m.data[row][col] = 0.0;
+            }
+            let floored = elem.floor();
+            if elem - floored > 0.999999 {
+                m.data[row][col] = elem.round();
+            }
+            if elem > 0.0 && elem < 0.000001 {
+                m.data[row][col] = 0.0;
+            }
+            if elem < 0.0 && elem > -0.0001 {
+                m.data[row][col] = 0.0;
+            }
+        }
+    }
 }
 

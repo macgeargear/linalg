@@ -60,5 +60,10 @@ impl Matrix {
             data,
         }
     }
+
+    pub fn print(&self) {
+        self.data.iter().for_each(|v| println!("{:?}", v));
+        println!();
+    }
 }
 

@@ -48,5 +48,17 @@ impl Matrix {
         let cols = data[0].len();
         Matrix { rows, cols, data }
     }
+
+    pub fn copy(&self) -> Matrix {
+        let mut data: Vec<Vec<f64>> = Vec::new();
+        for row in &self.data {
+            data.push(row.to_vec());
+        }
+        Matrix {
+            rows: self.rows,
+            cols: self.cols,
+            data,
+        }
+    }
 }
 

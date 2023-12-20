@@ -86,5 +86,18 @@ impl Matrix {
         }
         return sum;
     }
+
+    pub fn subtract(&self, b: Matrix) -> Matrix {
+        if self.rows != b.rows || self.cols != b.cols {
+            panic!("Matrices must be of the same size");
+        }
+        let mut sum = Matrix::new(self.rows, self.cols);
+        for i in 0..self.rows {
+            for j in 0..self.cols {
+                sum.data[i][j] = self.data[i][j] - b.data[i][j];
+            }
+        }
+        return sum;
+    }
 }
 

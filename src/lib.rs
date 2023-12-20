@@ -65,5 +65,13 @@ impl Matrix {
         self.data.iter().for_each(|v| println!("{:?}", v));
         println!();
     }
+
+    pub fn apply(&mut self, f: impl Fn(f64) -> f64) {
+        self.data = self
+            .data
+            .iter()
+            .map(|v| v.iter().map(|x| f(*x)).collect::<Vec<f64>>())
+            .collect::<Vec<Vec<f64>>>();
+    }
 }
 

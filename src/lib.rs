@@ -99,5 +99,25 @@ impl Matrix {
         }
         return sum;
     }
+
+    pub fn dot(&self, b: Matrix) -> Matrix {
+        if self.rows != b.cols || self.cols != b.rows {
+            panic!(
+                "Dimensions not matched. M1 is {} by {}, M2 is {} by {}",
+                self.rows, self.cols, b.rows, b.cols
+            );
+        }
+        let mut dp: Matrix = Matrix::new(self.rows, self.cols);
+        for i in 0..self.rows {
+            for j in 0..b.cols {
+                let mut sum = 0.0;
+                for k in 0..b.rows {
+                    sum += self.data[i][k] * b.data[k][j];
+                }
+                dp.data[i][j] = sum;
+            }
+        }
+        dp
+    }
 }
 
